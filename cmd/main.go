@@ -28,8 +28,10 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+    k8sService, _ := services.NewK8sService()
 	workspaceRepo := repository.NewWorkspaceRepository(db)
-	workspaceService := services.NewWorkspaceService(workspaceRepo)
+	workspaceService := services.NewWorkspaceService(workspaceRepo, *k8sService)
+
 
 	handler.NewWorkspaceHandler(e, workspaceService)
 
