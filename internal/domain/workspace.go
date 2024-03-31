@@ -10,4 +10,7 @@ type Workspace struct {
 
 type WorkspaceStorer interface {
 	CreateWorkspace(ctx context.Context, workspace Workspace) error
+    DeleteWorkspace(ctx context.Context, workspace Workspace) error
+    GetWorkspaceByID(ctx context.Context, workspace_id int64) (Workspace, error)
+    GetAllWorkspaces(ctx context.Context) ([]Workspace, error)
 }
