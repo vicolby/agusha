@@ -51,7 +51,11 @@ func (s *K8sService) createDeployment(ctx context.Context, workspace domain.Work
 		labels:    map[string]string{"app": "nginx"},
 	}
 
-	s.createNamespace(ctx, config.namespace)
+	err := s.createNamespace(ctx, config.namespace)
+
+	if err != nil {
+		return err
+	}
 
 	deploymentsClient := s.client.AppsV1().Deployments(config.namespace)
 	deployment := &appsv1.Deployment{
@@ -86,7 +90,7 @@ func (s *K8sService) createDeployment(ctx context.Context, workspace domain.Work
 		},
 	}
 
-	_, err := deploymentsClient.Create(context.TODO(), deployment, metav1.CreateOptions{})
+	_, err = deploymentsClient.Create(ctx, deployment, metav1.CreateOptions{})
 
 	if err != nil {
 		return err
